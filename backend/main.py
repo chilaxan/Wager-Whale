@@ -16,8 +16,9 @@ def get_db():
 
 def authentication(auth: Annotated[str | None, Cookie()] = None, db: Session = Depends(get_db)):
     if auth:
-        user = utils.decode(auth)
-        return crud.get_user(db, user.get('id'))
+        data = utils.decode(auth)
+        if data:
+            return crud.get_user(db, data.get('id'))
     raise HTTPException(status_code=400, detail="Failed To authenticate")
 
 app = FastAPI()
@@ -29,7 +30,7 @@ async def root():
 @app.post("/login", response_model=schemas.User)
 def login(logging_in_user: schemas.UserLogin, response: Response, db: Session = Depends(get_db)):
     user = crud.get_user_by_username(db, username=logging_in_user.username)
-    if utils.check_password(logging_in_user.password, user.hashed_password):
+    if user and utils.check_password(logging_in_user.password, user.hashed_password):
         response.set_cookie("auth", utils.sign({'id': user.id}))
         return user
     raise HTTPException(status_code=400, detail="Failed To login")
