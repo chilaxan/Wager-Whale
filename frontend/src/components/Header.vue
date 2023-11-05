@@ -11,7 +11,8 @@ const props = defineProps({
     selected: String,
     selectFunc: Function,
     wagers: Array<Wager>,
-    streamMap: Map<String, String>
+    streamMap: Map<String, String>,
+    showLeaderboard: Function
 })
 
 function logout() {
@@ -25,7 +26,7 @@ const showModal = ref(false);
 
 <template>
     <n-space justify="space-between" size="large">
-        <img src="/logo.png" class="mainlogo" />
+        <img src="/logo.png" class="mainlogo" @click="showLeaderboard!()"/>
         <n-button-group size="large">
             <n-button 
                 v-for="button of buttons"

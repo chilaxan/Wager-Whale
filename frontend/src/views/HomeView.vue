@@ -2,10 +2,11 @@
 import Header from '@/components/Header.vue';
 import { ref } from 'vue';
 import { useUserStore } from '@/stores/user';
-import { self, streams as streamsApi, newWager as newWagerApi, wagers as wagersApi } from '@/api';
+import { self, streams as streamsApi, newWager as newWagerApi, wagers as wagersApi, users as usersApi } from '@/api';
 import router from '@/router';
 import { notifications } from '@/api';
 import { useNotification } from 'naive-ui'
+import { type User } from '@/generated/openapi';
 
 const userStore = useUserStore();
 const selectedStream = ref();
@@ -168,10 +169,21 @@ setInterval(() => {
     })
 }, 1000);
 
+const leaderBoardVisible = ref(false);
+const leaderboard = ref<User[]>([]);
+
+function openLeaderboard() {
+  usersApi()
+    .then((usersItems) => {
+      leaderboard.value = usersItems;
+      leaderBoardVisible.value = true
+    })
+}
+
 </script>
 
 <template>
-  <Header :buttons="streams" :selected="selectedStream" :select-func=selectStream :wagers="wagers" :stream-map="streamMap" />
+  <Header :buttons="streams" :selected="selectedStream" :select-func=selectStream :wagers="wagers" :stream-map="streamMap" :show-leaderboard="openLeaderboard" />
   <div style="max-width: 100%; text-align: center;">
     <div id="highlight-box" hidden="true" ref="highlight"></div>
     <img
@@ -191,8 +203,7 @@ setInterval(() => {
       :bordered="false"
       size="huge"
       role="dialog"
-      aria-modal="true"
-      >
+      aria-modal="true">
       <template #header-extra>
         <n-button @click="close()" type="error">Cancel</n-button>
       </template>
@@ -208,5 +219,23 @@ setInterval(() => {
         <n-button @click="submit()" size="large" type="success">Submit</n-button>
       </template>
     </n-card>
+  </n-modal>
+  <n-modal v-model:show="leaderBoardVisible">
+    <n-card
+    style="width: 600px"
+      title="Leaderboard"
+      :bordered="false"
+      size="huge"
+      role="dialog"
+      aria-modal="true">
+      <template #header-extra>
+        <n-button @click="leaderBoardVisible = false" type="error">Cancel</n-button>
+      </template>
+      <n-data-table :columns="[
+        {'title':'Username', 'key': 'username'},
+        {'title': 'Balance', 'key': 'balance'}
+      ]"
+      :data="leaderboard"/>
+  </n-card>
   </n-modal>
 </template>

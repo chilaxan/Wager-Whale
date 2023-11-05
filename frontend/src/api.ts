@@ -37,3 +37,7 @@ export function newWager(startX: number, startY: number, endX: number, endY: num
 export function notifications() {
     return api.getNotificationsNotificationsGet();
 }
+
+export function users() {
+    return api.readUsersUsersGet();
+}

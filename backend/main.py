@@ -56,7 +56,7 @@ def create_user(user: schemas.UserCreate, response: Response, db: Session = Depe
 @app.get("/users/", response_model=list[schemas.User])
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = crud.get_users(db, skip=skip, limit=limit)
-    return users
+    return sorted(users, key=lambda u: u.balance, reverse=True)
 
 @app.get("/self", response_model=schemas.User)
 def get_self(user = Depends(authentication)):
