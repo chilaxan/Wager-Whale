@@ -27,7 +27,7 @@ class UserLogin(UserBase):
 
 class User(UserBase):
     id: int
-    balance: int
+    balance: float
 
     class Config:
         from_attributes = True
