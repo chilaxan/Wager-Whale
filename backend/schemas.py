@@ -16,3 +16,8 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+class Stream(BaseModel):
+    id: str
+    label: str
+    weight: float

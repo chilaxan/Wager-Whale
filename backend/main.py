@@ -1,8 +1,10 @@
 from typing import Annotated
 from fastapi import Depends, FastAPI, HTTPException, Request, Response, Cookie
+from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
 import crud, models, schemas, utils
+from streams import streams, makeStream, streamFrames
 from database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
@@ -40,11 +42,13 @@ def logout(response: Response) -> None:
     response.delete_cookie("auth")
 
 @app.post("/users/", response_model=schemas.User)
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
+def create_user(user: schemas.UserCreate, response: Response, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_username(db, username=user.username)
     if db_user:
         raise HTTPException(status_code=400, detail="Username already registered")
-    return crud.create_user(db=db, user=user, balance=100)
+    newUser = crud.create_user(db=db, user=user, balance=100)
+    response.set_cookie("auth", utils.sign({"id": newUser.id}))
+    return newUser
 
 @app.get("/users/", response_model=list[schemas.User])
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
@@ -61,3 +65,13 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
+
+@app.get("/streams", response_model=list[schemas.Stream])
+def get_streams(user = Depends(authentication)):
+    return streams
+
+@app.get("/streams/{stream_id}")
+def get_stream(stream_id: str, user = Depends(authentication)):
+    if stream_id not in streamFrames:
+        raise HTTPException(status_code=404, detail="Stream not found")
+    return StreamingResponse(makeStream(stream_id), media_type='multipart/x-mixed-replace; boundary=frame')
