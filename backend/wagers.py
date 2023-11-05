@@ -23,7 +23,7 @@ def CalcPayout(X,Y,XResolution,YResolution,Bet,Time):
     TimeProbo = (TimeProb - 1)**2
     Prob = ResProbo+TimeProbo
     Winnings = Prob*Bet
-    return Winnings
+    return round(Winnings, 2)
 
 XResolution = 1920
 YResolution = 1080
