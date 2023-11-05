@@ -43,9 +43,9 @@ def wagerTarget(wager):
         if detectFish(frame, wager): # add some randomness, our model is not reliable yet
             winnings = calculateWinnings(wager)
             user.balance += winnings
+            user.balance = round(user.balance, 2)
             db.add(user)
             db.commit()
-            user.balance = round(user.balance, 2)
             db.refresh(user)
             db.delete(wager)
             db.commit()
