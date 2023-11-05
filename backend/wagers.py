@@ -36,7 +36,7 @@ def calculateLoss(wager):
 
 def wagerTarget(wager):
     db = SessionLocal()
-    end = time.time() + (wager.duration * 1000) # seconds to ms
+    end = time.time() + wager.duration
     user = crud.get_user(db, wager.owner)
     while time.time() < end:
         frame = streams.rawStreamFrames[wager.stream]
