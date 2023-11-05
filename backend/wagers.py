@@ -5,22 +5,27 @@ import random
 import crud
 
 from database import SessionLocal
+from yolofish.YOLOFISHGAMBLE import detect
+
+def orderSlice(v1, v2):
+    return slice(min(int(v1), int(v2)), max(int(v1), int(v2)))
 
 def detectFish(frame, wager):
-    return random.choice([True] + [False] * 9)
+    crop = frame[orderSlice(wager.startY, wager.endY), orderSlice(wager.startX, wager.endX)]
+    return detect(crop)
 
 def calculateWinnings(wager):
-    return wager.bet + 5
+    return wager.bet * 2
 
 def calculateLoss(wager):
-    return wager.bet - 5
+    return wager.bet
 
 def wagerTarget(wager):
     db = SessionLocal()
     end = time.time() + wager.duration * 1000 # seconds to ms
     user = crud.get_user(db, wager.owner)
     while time.time() < end:
-        frame = streams.streamFrames[wager.stream].cell_contents
+        frame = streams.rawStreamFrames[wager.stream]
         if detectFish(frame, wager):
             winnings = calculateWinnings(wager)
             user.balance += wager.bet + winnings

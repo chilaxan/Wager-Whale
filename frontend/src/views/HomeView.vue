@@ -57,8 +57,8 @@ var startX: number, startY: number;
 var endX: number, endY: number;
 const imageHeight = 1080;
 const imageWidth = 1920;
-const maxArea = 10000;
-const minArea = 1000;
+const maxArea = 20000;
+const minArea = 200;
 const container = ref<HTMLDivElement>();
 const highlight = ref<HTMLDivElement>();
 const placeBet = ref(false);
@@ -73,6 +73,7 @@ function mouseDown(event: any) {
     highlight.value!.style.width = `0px`;
     highlight.value!.style.height = `0px`;
     highlight.value!.hidden = false;
+    highlight.value!.classList.remove('shake');
   }
 }
 

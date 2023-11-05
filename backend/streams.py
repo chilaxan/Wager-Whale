@@ -26,7 +26,7 @@ threads = []
 fps = 15
 time_delta = 1./fps
 
-def launchStream(stream_url):
+def launchStream(stream_id, stream_url):
     FrameCell = CellType()
     def target():
         #resp = requests.get(streamRelay.format(stream_id)).json()
@@ -36,6 +36,7 @@ def launchStream(stream_url):
             start_time = time.time()
             ret, frame = vcap.read()
             if frame is not None:
+                rawStreamFrames[stream_id] = frame
                 ret, buffer = cv2.imencode('.jpg', frame)
                 FrameCell.cell_contents = (b'--frame\r\n'
                                 b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n')
@@ -46,7 +47,8 @@ def launchStream(stream_url):
     t.start()
     return FrameCell
 
-streamFrames = {stream['id']: launchStream(stream['url']) for stream in streams}
+streamFrames = {stream['id']: launchStream(stream['id'], stream['url']) for stream in streams}
+rawStreamFrames = {}
 
 def makeStream(stream_id):
     frameContainer = streamFrames[stream_id]
