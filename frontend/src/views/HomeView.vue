@@ -161,7 +161,7 @@ setInterval(() => {
           })
         }
       }
-      if (notifications.length) {
+      if (notifications.length > 0) {
         // if we got a notification, then some wager was closed, refresh them
         wagersApi().then(wagersItems => {
           wagers.value = wagersItems;
