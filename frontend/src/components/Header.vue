@@ -27,7 +27,7 @@ const showModal = ref(false);
 
 <template>
     <n-space justify="space-between" size="large">
-        <img src="/logo.png" class="mainlogo" @click="showLeaderboard!()"/>
+        <img src="/tinylogo.png" class="mainlogo" @click="showLeaderboard!()"/>
         <n-button-group size="large">
             <n-button 
                 v-for="button of buttons"
