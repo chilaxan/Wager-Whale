@@ -45,6 +45,7 @@ def wagerTarget(wager):
             user.balance += winnings
             db.add(user)
             db.commit()
+            user.balance = round(user.balance, 2)
             db.refresh(user)
             db.delete(wager)
             db.commit()
@@ -57,6 +58,7 @@ def wagerTarget(wager):
         time.sleep(0.5)
     #loss = calculateLoss(wager)
     #user.balance += wager.bet - loss
+    user.balance = round(user.balance, 2)
     db.add(user)
     db.commit()
     db.refresh(user)
