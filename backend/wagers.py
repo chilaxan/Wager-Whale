@@ -15,11 +15,24 @@ def detectFish(frame, wager):
     crop = frame[orderSlice(wager.startY, wager.endY), orderSlice(wager.startX, wager.endX)]
     return detect(crop)
 
+
+def CalcPayout(X,Y,XResolution,YResolution,Bet,Time):
+    ResProb = (X*Y)/(XResolution*YResolution)
+    ResProbo = 1-(ResProb**2)
+    TimeProb = Time/300
+    TimeProbo = (TimeProb - 1)**2
+    Prob = ResProbo+TimeProbo
+    Winnings = Prob*Bet
+    return Winnings
+
+XResolution = 1920
+YResolution = 1080
+
 def calculateWinnings(wager):
-    return wager.bet * 2
+    return CalcPayout(wager.startX, wager.startY, XResolution, YResolution, wager.bet, wager.duration)
 
 def calculateLoss(wager):
-    return wager.bet
+    return CalcPayout(wager.startX, wager.startY, XResolution, YResolution, wager.bet, wager.duration)
 
 def wagerTarget(wager):
     db = SessionLocal()
