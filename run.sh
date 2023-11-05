@@ -12,8 +12,8 @@ chmod a+rwX ./db
 
 docker build -t wagerwhales .
 docker run --name wagerwhales \
-            -v ./db:/var/db \
-            -v ./frontend/dist:/home/user/frontend/dist \
+            -v ./db:/var/db:Z \
+            -v ./frontend/dist:/home/user/frontend/dist:Z \
             --rm \
             -p 127.0.0.1:8080:80 \
             -e HOST=$1 \
