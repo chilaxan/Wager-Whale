@@ -87,6 +87,7 @@ def get_wagers(db: Session = Depends(get_db), user = Depends(authentication)):
 def make_wager(wager: schemas.WagerCreate, db: Session = Depends(get_db), user = Depends(authentication)):
     if wager.stream not in streamFrames:
         raise HTTPException(status_code=404, detail="Stream not found")
+    wager.bet = round(wager.bet, 2)
     newWager = crud.add_wager(db, user,
                                 startX = wager.startX,
                                 startY = wager.startY,
