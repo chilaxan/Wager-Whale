@@ -57,6 +57,9 @@ function register() {
       </template>
     </n-card>
     <n-card  style="width: 550px;" title="Welcome to Wager Whales!" size="huge">
+      <template #header-extra>
+        <img src="/tinylogo.png" class="mainlogo"/>
+      </template>
       <h2>How to Play:</h2>
       <p>
         After logging into your account, navigate to any stream via the buttons at the top. 

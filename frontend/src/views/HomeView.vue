@@ -234,7 +234,7 @@ function openLeaderboard() {
       role="dialog"
       aria-modal="true">
       <template #header-extra>
-        <n-button @click="leaderBoardVisible = false" type="error">Cancel</n-button>
+        <n-button @click="leaderBoardVisible = false" type="error">Close</n-button>
       </template>
       <n-data-table :columns="[
         {'title':'Username', 'key': 'username'},
