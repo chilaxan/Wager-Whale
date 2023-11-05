@@ -58,7 +58,7 @@ var startX: number, startY: number;
 var endX: number, endY: number;
 const imageHeight = 1080;
 const imageWidth = 1920;
-const maxArea = 20000;
+const maxArea = 10000;
 const minArea = 200;
 const container = ref<HTMLDivElement>();
 const highlight = ref<HTMLDivElement>();
