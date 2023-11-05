@@ -43,9 +43,12 @@ def logout(response: Response) -> None:
 
 @app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, response: Response, db: Session = Depends(get_db)):
+    user.username = user.username.strip()
     db_user = crud.get_user_by_username(db, username=user.username)
     if db_user:
         raise HTTPException(status_code=400, detail="Username already registered")
+    if not utils.check_username(user.username):
+        raise HTTPException(status_code=400, detail="Invalid Username")
     newUser = crud.create_user(db=db, user=user, balance=100)
     response.set_cookie("auth", utils.sign({"id": newUser.id}))
     return newUser

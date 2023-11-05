@@ -39,9 +39,6 @@ def launchStream(stream_url):
                 ret, buffer = cv2.imencode('.jpg', frame)
                 FrameCell.cell_contents = (b'--frame\r\n'
                                 b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n')
-                #dt = time.time() - start_time
-                #if wt - dt > 0:
-                #    time.sleep(wt - dt)
                 time.sleep(time_delta)
     t = threading.Thread(target=target)
     t.setDaemon(True)
