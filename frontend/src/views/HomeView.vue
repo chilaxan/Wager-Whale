@@ -109,6 +109,7 @@ function mouseUp(event: any) {
 
     let width = Math.abs(selectEndX.value - selectStartX.value);
     let height = Math.abs(selectEndY.value - selectStartY.value);
+    console.log(width, height)
     let area = width * height;
     if (minArea < area && area < maxArea) {
       bet.value = undefined;
