@@ -42,7 +42,7 @@ def wagerTarget(wager):
         frame = streams.rawStreamFrames[wager.stream]
         if detectFish(frame, wager): # add some randomness, our model is not reliable yet
             winnings = calculateWinnings(wager)
-            user.balance += wager.bet + winnings
+            user.balance += winnings
             db.add(user)
             db.commit()
             db.refresh(user)
@@ -50,21 +50,21 @@ def wagerTarget(wager):
             db.commit()
             notifications.setdefault(user.id, []).append({
                 'message': f'Your Wager Hit! You won {winnings}',
-                'delta': wager.bet + winnings
+                'delta': winnings
             })
             db.close()
             return
         time.sleep(0.5)
-    loss = calculateLoss(wager)
-    user.balance += wager.bet - loss
+    #loss = calculateLoss(wager)
+    #user.balance += wager.bet - loss
     db.add(user)
     db.commit()
     db.refresh(user)
     db.delete(wager)
     db.commit()
     notifications.setdefault(user.id, []).append({
-        'message': f'Your Wager Did Not Hit! You lost {loss}',
-        'delta': wager.bet - loss
+        'message': f'Your Wager Did Not Hit! You lost {wager.bet}',
+        'delta': 0 #wager.bet - loss
     })
     db.close()
 
