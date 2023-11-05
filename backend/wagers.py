@@ -1,8 +1,9 @@
+import cv2
 import streams
 import threading
 import time
-import random
 import crud
+import random
 
 from database import SessionLocal
 from yolofish.YOLOFISHGAMBLE import detect
@@ -22,11 +23,11 @@ def calculateLoss(wager):
 
 def wagerTarget(wager):
     db = SessionLocal()
-    end = time.time() + wager.duration * 1000 # seconds to ms
+    end = time.time() + (wager.duration * 1000) # seconds to ms
     user = crud.get_user(db, wager.owner)
     while time.time() < end:
         frame = streams.rawStreamFrames[wager.stream]
-        if detectFish(frame, wager):
+        if detectFish(frame, wager) and random.choice([1] * 5 + [0] * 5): # add some randomness, our model is not reliable yet
             winnings = calculateWinnings(wager)
             user.balance += wager.bet + winnings
             db.add(user)

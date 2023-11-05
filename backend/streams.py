@@ -36,8 +36,8 @@ def launchStream(stream_id, stream_url):
             start_time = time.time()
             ret, frame = vcap.read()
             if frame is not None:
-                rawStreamFrames[stream_id] = frame
                 ret, buffer = cv2.imencode('.jpg', frame)
+                rawStreamFrames[stream_id] = frame
                 FrameCell.cell_contents = (b'--frame\r\n'
                                 b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n')
                 time.sleep(time_delta)
