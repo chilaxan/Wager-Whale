@@ -25,7 +25,7 @@ def decode(token):
         return None
     
 def check_username(username):
-	if re.search(r'[a-zA-Z0-9]', username) and 2<=len(username)<=32:
+	if re.search(r'^[a-zA-Z0-9]*$', username) and 2<=len(username)<=32:
 		return True
 	else:
 		return False
