@@ -17,3 +17,27 @@ def create_user(db: Session, user: schemas.UserCreate, balance: int):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+def get_wagers(db: Session, user: schemas.User):
+    return db.query(models.Wager).filter(models.Wager.owner == user.id).all()
+
+def add_wager(db: Session, user: schemas.User, startX: float, startY: float, endX: float, endY: float, bet: float, duration: float, stream: str):
+    if bet > user.balance or bet < 0 or duration < 0:
+        return None
+    db_wager = models.Wager(
+        owner=user.id,
+        startX = startX,
+        startY = startY,
+        endX = endX,
+        endY = endY,
+        bet = bet, 
+        duration = duration,
+        stream = stream
+    )
+    db.add(db_wager)
+    user.balance -= bet
+    db.add(user)
+    db.commit()
+    db.refresh(db_wager)
+    db.refresh(user)
+    return db_wager

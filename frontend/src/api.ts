@@ -25,3 +25,15 @@ export function logout() {
 export function streams() {
     return api.getStreamsStreamsGet();
 }
+
+export function wagers() {
+    return api.getWagersWagersGet();
+}
+
+export function newWager(startX: number, startY: number, endX: number, endY: number, bet: number, duration: number, stream: string) {
+    return api.makeWagerWagersPost({ wagerCreate: { startX, startY, endX, endY, bet, duration, stream }});
+}
+
+export function notifications() {
+    return api.getNotificationsNotificationsGet();
+}

@@ -1,18 +1,17 @@
 <script setup lang="ts">
 import { logout as logoutApi} from "@/api";
+import { type Stream, type Wager } from "@/generated/openapi";
 import router from "@/router";
 import { useUserStore } from "@/stores/user";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const userStore = useUserStore();
 const props = defineProps({
-    buttons: Array<{
-        label: String,
-        id: String,
-        weight: Number,
-    }>,
+    buttons: Array<Stream>,
     selected: String,
-    selectFunc: Function
+    selectFunc: Function,
+    wagers: Array<Wager>,
+    streamMap: Map<String, String>
 })
 
 function logout() {
@@ -22,7 +21,6 @@ function logout() {
 }
 
 const showModal = ref(false);
-
 </script>
 
 <template>
@@ -58,13 +56,8 @@ const showModal = ref(false);
         role="dialog"
         aria-modal="true"
         >
-        <template #header-extra>
-            Not Implemented Yet
-        </template>
-        Not Implemented Yet
-        <template #footer>
-            Not Implemented Yet
-        </template>
+        <n-button v-for="wager of wagers">Wager: ${{ wager.bet }}, Duration: {{ wager.duration }}, Stream: {{ streamMap!.get(wager.stream) }}</n-button>
+        <n-empty v-if="wagers?.length == 0"></n-empty>
         </n-card>
     </n-modal>
 </template>

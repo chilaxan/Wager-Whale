@@ -8,5 +8,8 @@ models/UserCreate.ts
 models/UserLogin.ts
 models/ValidationError.ts
 models/ValidationErrorLocInner.ts
+models/Wager.ts
+models/WagerCreate.ts
+models/WagerNotification.ts
 models/index.ts
 runtime.ts

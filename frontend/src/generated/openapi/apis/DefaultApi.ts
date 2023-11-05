@@ -20,6 +20,9 @@ import type {
   User,
   UserCreate,
   UserLogin,
+  Wager,
+  WagerCreate,
+  WagerNotification,
 } from '../models/index';
 import {
     HTTPValidationErrorFromJSON,
@@ -32,10 +35,20 @@ import {
     UserCreateToJSON,
     UserLoginFromJSON,
     UserLoginToJSON,
+    WagerFromJSON,
+    WagerToJSON,
+    WagerCreateFromJSON,
+    WagerCreateToJSON,
+    WagerNotificationFromJSON,
+    WagerNotificationToJSON,
 } from '../models/index';
 
 export interface CreateUserUsersPostRequest {
     userCreate: UserCreate;
+}
+
+export interface GetNotificationsNotificationsGetRequest {
+    auth?: string | null;
 }
 
 export interface GetSelfSelfGetRequest {
@@ -44,14 +57,24 @@ export interface GetSelfSelfGetRequest {
 
 export interface GetStreamStreamsStreamIdGetRequest {
     streamId: string;
+    auth?: string | null;
 }
 
 export interface GetStreamsStreamsGetRequest {
     auth?: string | null;
 }
 
+export interface GetWagersWagersGetRequest {
+    auth?: string | null;
+}
+
 export interface LoginLoginPostRequest {
     userLogin: UserLogin;
+}
+
+export interface MakeWagerWagersPostRequest {
+    wagerCreate: WagerCreate;
+    auth?: string | null;
 }
 
 export interface ReadUserUsersUserIdGetRequest {
@@ -98,6 +121,32 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async createUserUsersPost(requestParameters: CreateUserUsersPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<User> {
         const response = await this.createUserUsersPostRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Get Notifications
+     */
+    async getNotificationsNotificationsGetRaw(requestParameters: GetNotificationsNotificationsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<WagerNotification>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/notifications`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(WagerNotificationFromJSON));
+    }
+
+    /**
+     * Get Notifications
+     */
+    async getNotificationsNotificationsGet(requestParameters: GetNotificationsNotificationsGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<WagerNotification>> {
+        const response = await this.getNotificationsNotificationsGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -183,6 +232,32 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * Get Wagers
+     */
+    async getWagersWagersGetRaw(requestParameters: GetWagersWagersGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Wager>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/wagers`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(WagerFromJSON));
+    }
+
+    /**
+     * Get Wagers
+     */
+    async getWagersWagersGet(requestParameters: GetWagersWagersGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Wager>> {
+        const response = await this.getWagersWagersGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Login
      */
     async loginLoginPostRaw(requestParameters: LoginLoginPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<User>> {
@@ -238,6 +313,39 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async logoutLogoutPost(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
         await this.logoutLogoutPostRaw(initOverrides);
+    }
+
+    /**
+     * Make Wager
+     */
+    async makeWagerWagersPostRaw(requestParameters: MakeWagerWagersPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Wager>> {
+        if (requestParameters.wagerCreate === null || requestParameters.wagerCreate === undefined) {
+            throw new runtime.RequiredError('wagerCreate','Required parameter requestParameters.wagerCreate was null or undefined when calling makeWagerWagersPost.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        const response = await this.request({
+            path: `/wagers/`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: WagerCreateToJSON(requestParameters.wagerCreate),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => WagerFromJSON(jsonValue));
+    }
+
+    /**
+     * Make Wager
+     */
+    async makeWagerWagersPost(requestParameters: MakeWagerWagersPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Wager> {
+        const response = await this.makeWagerWagersPostRaw(requestParameters, initOverrides);
+        return await response.value();
     }
 
     /**

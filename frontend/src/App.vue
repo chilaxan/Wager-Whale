@@ -5,12 +5,14 @@ import { darkTheme } from 'naive-ui'
 
 <template>
   <n-config-provider :theme="darkTheme">
-    <n-space vertical size="large">
-      <n-layout style="height: 100vh;">
-        <n-layout-content content-style="padding: 24px;">
-          <RouterView />
-        </n-layout-content>
-      </n-layout>
-    </n-space>
+    <n-notification-provider>
+      <n-space vertical size="large">
+        <n-layout style="height: 100vh;">
+          <n-layout-content content-style="padding: 24px;">
+            <RouterView />
+          </n-layout-content>
+        </n-layout>
+      </n-space>
+    </n-notification-provider>
   </n-config-provider>
 </template>
