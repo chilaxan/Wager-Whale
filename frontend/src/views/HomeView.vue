@@ -110,7 +110,7 @@ function mouseUp(event: any) {
     let width = Math.abs(selectEndX.value - selectStartX.value);
     let height = Math.abs(selectEndY.value - selectStartY.value);
     let area = width * height;
-    if (minArea < area && area < maxArea) {
+    if (area > minArea && area < maxArea) {
       bet.value = undefined;
       duration.value = undefined;
       placeBet.value = true;
