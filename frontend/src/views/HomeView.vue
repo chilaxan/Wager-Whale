@@ -59,7 +59,7 @@ var endX: number, endY: number;
 const imageHeight = 1080;
 const imageWidth = 1920;
 const maxArea = 10000;
-const minArea = 200;
+const minArea = 1000;
 const container = ref<HTMLDivElement>();
 const highlight = ref<HTMLDivElement>();
 const placeBet = ref(false);
@@ -109,7 +109,6 @@ function mouseUp(event: any) {
 
     let width = Math.abs(selectEndX.value - selectStartX.value);
     let height = Math.abs(selectEndY.value - selectStartY.value);
-    console.log(width, height)
     let area = width * height;
     if (minArea < area && area < maxArea) {
       bet.value = undefined;
