@@ -15,6 +15,6 @@ docker run --name wagerwhales \
             -v ./db:/var/db \
             -v ./frontend/dist:/home/user/frontend/dist \
             --rm \
-            -p 80:80 \
+            -p 127.0.0.1:8080:80 \
             -e HOST=$1 \
             wagerwhales
