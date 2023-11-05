@@ -7,6 +7,7 @@ import router from '@/router';
 import { notifications } from '@/api';
 import { useNotification } from 'naive-ui'
 import { type User } from '@/generated/openapi';
+import { formatter } from '@/utils';
 
 const userStore = useUserStore();
 const selectedStream = ref();
@@ -176,6 +177,9 @@ const leaderboard = ref<User[]>([]);
 function openLeaderboard() {
   usersApi()
     .then((usersItems) => {
+      for (const user of usersItems) {
+        (user as any).balance = formatter.format(user.balance);
+      }
       leaderboard.value = usersItems;
       leaderBoardVisible.value = true
     })

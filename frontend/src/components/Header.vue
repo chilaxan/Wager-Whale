@@ -4,6 +4,7 @@ import { type Stream, type Wager } from "@/generated/openapi";
 import router from "@/router";
 import { useUserStore } from "@/stores/user";
 import { ref, watch } from "vue";
+import { formatter } from '@/utils';
 
 const userStore = useUserStore();
 const props = defineProps({
@@ -37,7 +38,7 @@ const showModal = ref(false);
         </n-button-group>
         <n-button-group size="large">
             <n-button type="success" @click="showModal = true">
-                ${{ userStore.user?.balance }}
+                {{ formatter.format(userStore.user?.balance) }}
             </n-button>
             <n-button type="info" @click="showModal = true">
                 {{ userStore.user?.username }}
