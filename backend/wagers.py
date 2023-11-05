@@ -40,7 +40,7 @@ def wagerTarget(wager):
     user = crud.get_user(db, wager.owner)
     while time.time() < end:
         frame = streams.rawStreamFrames[wager.stream]
-        if detectFish(frame, wager) and random.choice([1] * 5 + [0] * 5): # add some randomness, our model is not reliable yet
+        if detectFish(frame, wager): # add some randomness, our model is not reliable yet
             winnings = calculateWinnings(wager)
             user.balance += wager.bet + winnings
             db.add(user)
