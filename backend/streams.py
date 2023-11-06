@@ -6,18 +6,21 @@ from types import CellType
 
 #streamRelay = 'https://relay.ozolio.com/ses.api?cmd=open&oid={}&output=1&format=M3U8&profile=AUTO'
 
+streamRoot = 'http://host.docker.internal:9393/'
+#streamRoot = 'https://streams.chilaxan.cc/'
+
 streams = [
     {
         'label': 'JellyFish',
         'id': 'JellyFish',
         'weight': 0.8,
-        'url': 'https://streams.chilaxan.cc/JellyFish.mp4.m3u8' # 'https://usw01-smr04-relay.ozolio.com/hll-live/_definst_/relay01.bktacf0.fd0.sm1.av2.mt0.at0.as0.dv0.sh2.rt13264.rc0.edge.basic.stream/playlist.m3u8'
+        'url': streamRoot + 'JellyFish.mp4.m3u8' # 'https://usw01-smr04-relay.ozolio.com/hll-live/_definst_/relay01.bktacf0.fd0.sm1.av2.mt0.at0.as0.dv0.sh2.rt13264.rc0.edge.basic.stream/playlist.m3u8'
     },
     {
         'label': 'WhaleShark',
         'id': 'WhaleShark',
         'weight': 0.2,
-        'url': 'https://streams.chilaxan.cc/WhaleShark.mp4.m3u8' # 'https://usw01-smr03-relay.ozolio.com/hls-live/_definst_/relay01.hqko7z.fd0.sm1.av2.mt0.at0.as0.dv0.sh2.rt13264.rc0.edge.basic.stream/playlist.m3u8'
+        'url': streamRoot + 'WhaleShark.mp4.m3u8' # 'https://usw01-smr03-relay.ozolio.com/hls-live/_definst_/relay01.hqko7z.fd0.sm1.av2.mt0.at0.as0.dv0.sh2.rt13264.rc0.edge.basic.stream/playlist.m3u8'
     }
 ]
 

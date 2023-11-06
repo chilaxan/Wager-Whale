@@ -17,4 +17,5 @@ docker run --name wagerwhales \
             --rm \
             -p 127.0.0.1:8080:80 \
             -e HOST=$1 \
+            --add-host=host.docker.internal:host-gateway \
             wagerwhales
