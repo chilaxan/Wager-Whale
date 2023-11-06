@@ -6,7 +6,7 @@ from types import CellType
 
 #streamRelay = 'https://relay.ozolio.com/ses.api?cmd=open&oid={}&output=1&format=M3U8&profile=AUTO'
 
-streamRoot = 'http://host.docker.internal:9393/'
+streamRoot = 'http://host.containers.internal:9393/'
 #streamRoot = 'https://streams.chilaxan.cc/'
 
 streams = [
