@@ -54,8 +54,8 @@ function selectStream(stream: any) {
 }
 
 var selected = false;
-var startX: number, startY: number;
-var endX: number, endY: number;
+var startX: number = 0, startY: number = 0;
+var endX: number = 0, endY: number = 0;
 const imageHeight = 1080;
 const imageWidth = 1920;
 const maxArea = 10000;
@@ -122,6 +122,7 @@ function mouseUp(event: any) {
         highlight.value!.hidden = true;
       }, 500);
     }
+    startX = startY = endX = endY = 0;
   }
 }
 
